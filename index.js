@@ -4,12 +4,10 @@ function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 
 function move(x = 1, y = 1) { readline.cursorTo(process.stdout, x, y); }
 
-function print(text = '', options) {
-  const defaults = { x: null, y: null, color: '' };
-  const ops = { ...defaults, ...options};
-  if (ops.x !== null && ops.y === null) { readline.cursorTo(process.stdout, ops.x); }
-  if (ops.x !== null && ops.y !== null) { readline.cursorTo(process.stdout, ops.x, ops.y); }
-  if (ops.color) { text = color(text, ops.color, ops.effect, ops.bgColor); }
+function print(text = '', x, y, color) {
+  if (x !== null && y === null) { readline.cursorTo(process.stdout, x); }
+  if (x !== null && y !== null) { readline.cursorTo(process.stdout, x, y); }
+  if (color) { text = colorFn(text, color); }
   process.stdout.write(text);
 }
 
