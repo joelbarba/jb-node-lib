@@ -1,4 +1,15 @@
+const { exec } = require('child_process');
 const readline = require('readline');
+
+function cmd(command) {
+  return new Promise((resolve, reject) => exec(command, (error, stdout, stderr) => {
+    if (error) { reject(error.message); return; }
+    if (stderr) { reject(stderr); return; }
+    return resolve(stdout);
+  }));
+
+}
+
 
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 
@@ -53,6 +64,8 @@ function resetColor() {
 }
 
 
+module.exports.cmd        = cmd;
+module.exports.sleep      = sleep;
 module.exports.move       = move;
 module.exports.print      = print;
 module.exports.repeat     = repeat;
