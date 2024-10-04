@@ -22,6 +22,17 @@ function print(text = '', x, y, color) {
   process.stdout.write(text);
 }
 
+// Prints multiple strings onto the same line, in different positions
+function line(str1, pos1, str2 = '', pos2 = 0, str3 = '', pos3 = 0, str4 = '', pos4 = 0, str5 = '', pos5 = 0) {
+  let arr = Array.from(Array(100)).map(_ => ' ');
+  for (let t = 0; t < str1.length; t++) { arr[pos1 + t] = str1.charAt(t); }
+  for (let t = 0; t < str2.length; t++) { arr[pos2 + t] = str2.charAt(t); }
+  for (let t = 0; t < str3.length; t++) { arr[pos3 + t] = str3.charAt(t); }
+  for (let t = 0; t < str4.length; t++) { arr[pos4 + t] = str4.charAt(t); }
+  for (let t = 0; t < str5.length; t++) { arr[pos5 + t] = str5.charAt(t); }
+  return arr.join('');
+}
+
 // Returns a string with 'char' repeated 'num' times
 function repeat(num, char) { return Array.from(Array(num)).map(_ => char).join(''); }
 
@@ -68,6 +79,7 @@ module.exports.cmd        = cmd;
 module.exports.sleep      = sleep;
 module.exports.move       = move;
 module.exports.print      = print;
+module.exports.line       = line;
 module.exports.repeat     = repeat;
 module.exports.color      = color;
 module.exports.setColor   = setColor;
