@@ -39,4 +39,7 @@ function color(text, color = 'green', effect = 'bright', bgColor = '') {
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 
 
-module.exports.lib = { move, print, color, sleep };
+module.exports.move   = move;
+module.exports.print  = print;
+module.exports.color  = color;
+module.exports.sleep  = sleep;
