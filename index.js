@@ -23,13 +23,16 @@ function print(text = '', x, y, color) {
 }
 
 // Prints multiple strings onto the same line, in different positions
-function line(str1, pos1, str2 = '', pos2 = 0, str3 = '', pos3 = 0, str4 = '', pos4 = 0, str5 = '', pos5 = 0) {
-  let arr = Array.from(Array(100)).map(_ => ' ');
-  for (let t = 0; t < str1.length; t++) { arr[pos1 + t] = str1.charAt(t); }
-  for (let t = 0; t < str2.length; t++) { arr[pos2 + t] = str2.charAt(t); }
-  for (let t = 0; t < str3.length; t++) { arr[pos3 + t] = str3.charAt(t); }
-  for (let t = 0; t < str4.length; t++) { arr[pos4 + t] = str4.charAt(t); }
-  for (let t = 0; t < str5.length; t++) { arr[pos5 + t] = str5.charAt(t); }
+// args should be pairs of strings and numbers, like: line('hello', 3, 'bye', 15, 'end', 50);
+function line(...args) { // str1, pos1, ... strN, posN
+  const str = args.filter((v,i) => !(i % 2)); // strings to print
+  const pos = args.filter((v,i) => (i % 2));  // positions where to print them
+  if (str.length > pos.length) { pos.push(str.at(-1).length + pos.at(-1)); }
+  let width = Math.max(...pos.map((p, i) => p + str[i].length));  
+  let arr = Array.from(Array(width)).map(_ => ' ');
+  for (let q = 0; q < str.length; q++) { 
+    for (let t = 0; t < str[q].length; t++) { arr[pos[q] + t] = str[q].charAt(t); }
+  }
   return arr.join('');
 }
 
