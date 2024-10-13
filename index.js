@@ -78,6 +78,39 @@ function resetColor() {
 }
 
 
+
+
+function dirExist(fullPath) { // Check if a directory exists
+  try {
+    if (fs.existsSync(fullPath)) { return true; }
+  } catch(err) { return false; }
+}
+
+function formatTime(ms) {
+  if (ms < 1000) { return `00:00`; }
+  if (ms < 60000) {
+    const sec = Math.round(ms / 1000);
+    return `00:${pad(sec, 2, '0')}`;
+  }
+  const min = Math.floor(ms / 60000);
+  const sec = Math.round((ms - (min * 60000)) / 1000);
+  return `${pad(min, 2, '0')}:${pad(sec, 2, '0')}`;
+}
+
+function formatSize(size = 0) {
+  const KB = Math.pow(1024, 1);
+  const MB = Math.pow(1024, 2);
+  const GB = Math.pow(1024, 3);
+  if (size < KB) { return `${size}  B`; }
+  if (size < MB) { return `${Math.floor(10 * size / KB) / 10} KB`; }
+  if (size < GB) { return `${Math.floor(10 * size / MB) / 10} MB`; }
+  return `${Math.floor(10 * size / GB) / 10} GB`;
+}
+
+
+
+
+
 module.exports.cmd        = cmd;
 module.exports.sleep      = sleep;
 module.exports.move       = move;
@@ -97,3 +130,7 @@ module.exports.cyan       = function(text) { return color(text, 'cyan'   ); };
 module.exports.black      = function(text) { return color(text, 'black',  ''); };
 module.exports.brown      = function(text) { return color(text, 'yellow', ''); };
 module.exports.white      = function(text) { return color(text, 'white'  ); };
+
+module.exports.dirExist = dirExist;
+module.exports.formatTime = formatTime;
+module.exports.formatSize = formatSize;

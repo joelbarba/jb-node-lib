@@ -108,3 +108,14 @@ async function subMenu() {
   keyboard.pop(); // Back to main menu
 }
 
+
+
+function printBox(x = 0, y = 0) {
+  const height = 20;
+  print(`┌${repeat(80, '─')}┬${repeat(30, '─')}┬${repeat(20, '─')}┐`, x, y);
+  print(`└${repeat(80, '─')}┴${repeat(30, '─')}┴${repeat(20, '─')}┘`, x, y + height);
+  for (let t = 1; t < height; t++) {
+    print(`│${repeat(80, ' ')}│${repeat(30, ' ')}│${repeat(20, ' ')}│`, x, y + t);
+  }
+  // print(`├${repeat(80, '─')}┤`, x, y);
+}
