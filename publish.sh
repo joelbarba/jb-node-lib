@@ -21,14 +21,15 @@ else
   else
     git commit -m "New version published: ${newVersion}"
   fi
-  # git push origin master
+  git push origin master
 fi
 
 echo ""
+echo "--------------------------------------------------------------"
 echo "Update version: $oldVersion  --->  $newVersion"
 echo ""
 
-# npm publish
+npm publish
 
 echo ""
 git log -1
