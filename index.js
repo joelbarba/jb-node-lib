@@ -7,7 +7,16 @@ function cmd(command) {
     if (stderr) { reject(stderr); return; }
     return resolve(stdout);
   }));
+}
 
+function exit(clear = false) {
+  let bottomLine = process.stdout.rows;
+  if (clear) {
+    console.clear();
+    bottomLine = 0;
+  }
+  move(0, bottomLine);
+  process.exit(0); 
 }
 
 
@@ -129,6 +138,7 @@ function formatSize(size = 0) {
 
 
 module.exports.cmd        = cmd;
+module.exports.exit       = exit;
 module.exports.sleep      = sleep;
 module.exports.move       = move;
 module.exports.print      = print;
