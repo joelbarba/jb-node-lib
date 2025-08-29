@@ -12,16 +12,15 @@ else
   git add -A
   git status
 
-  msg=`New version published: ${newVersion}`
   x=$1
   if [[ "$x" == "" ]]; then
     echo ""
     echo -n "Type the commit message: "
     read x
-    msg=`echo "${x}"\n\n "New version published: ${newVersion}"`
+    git commit -m "$x" -m "New version published: $newVersion"
+  else
+    git commit -m "New version published: ${newVersion}"
   fi
-  echo $msg
-  # git commit -m "$msg"
   # git push origin master
 fi
 
