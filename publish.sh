@@ -30,6 +30,6 @@ echo ""
 
 # npm publish
 
-# echo ""
-# git log -1
-# echo ""
+echo ""
+git log -1
+echo ""
