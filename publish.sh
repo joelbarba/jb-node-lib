@@ -18,7 +18,7 @@ else
     echo ""
     echo -n "Type the commit message: "
     read x
-    msg=`${x}\n\n New version published: ${newVersion}`
+    msg=`echo "${x}\n\n New version published: ${newVersion}"`
   fi
   echo $msg
   # git commit -m "$msg"
