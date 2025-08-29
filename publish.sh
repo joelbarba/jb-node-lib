@@ -1,5 +1,7 @@
 echo "Publish the 'jb-node-lib' package to NPM"
 oldVersion=$(node -p "require('./package.json').version");
+npm version minor --force
+newVersion=$(node -p "require('./package.json').version");
 
 git status
 
@@ -12,8 +14,7 @@ else
   git push origin master
 fi
 
-npm version minor --force
-newVersion=$(node -p "require('./package.json').version");
+
 
 echo ""
 echo "Update version: $oldVersion  --->  $newVersion"
