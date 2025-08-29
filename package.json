@@ -1,8 +1,9 @@
 {
   "name": "jb-node-lib",
-  "version": "1.8.0",
-  "description": "Common NodeJS functions to build apps",
+  "version": "1.9.0",
+  "description": "Common NodeJS functions to build apps",  
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

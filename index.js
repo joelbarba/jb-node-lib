@@ -39,6 +39,23 @@ function line(...args) { // str1, pos1, ... strN, posN
 // Returns a string with 'char' repeated 'num' times
 function repeat(num, char) { return Array.from(Array(num)).map(_ => char).join(''); }
 
+
+// Example: printBox(30, 3, 100, 15, [20, 50, 70]);
+function printBox(posX = 0, posY = 0, width = 80, height = 20, cols = []) {
+  print(`┌${repeat(width, '─')}┐`, posX, posY);
+  print(`└${repeat(width, '─')}┘`, posX, posY + height);
+  for (let t = 1; t < height; t++) {
+    print(`│${repeat(width, ' ')}│`, posX, posY + t);
+  }
+  cols.forEach(col => {
+    print(`┬`, posX + col, posY);
+    print(`┴`, posX + col, posY + height);
+    for (let t = 1; t < height; t++) {
+      print(`│`, posX + col, posY + t);
+    }
+  });
+}
+
 const reset = `\x1b[0m`;
 const allEffects = {
   bright     : `\x1b[1m`,
@@ -120,6 +137,7 @@ module.exports.repeat     = repeat;
 module.exports.color      = color;
 module.exports.setColor   = setColor;
 module.exports.resetColor = resetColor;
+module.exports.printBox   = printBox;
 module.exports.red        = function(text) { return color(text, 'red'    ); };
 module.exports.green      = function(text) { return color(text, 'green'  ); };
 module.exports.yellow     = function(text) { return color(text, 'yellow' ); };

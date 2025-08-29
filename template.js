@@ -1,6 +1,6 @@
 import process from 'process';
 import readline from 'readline';
-import { cmd, sleep, move, print, line, repeat, color } from 'jb-node-lib';
+import { cmd, sleep, move, print, line, repeat, color, printBox } from 'jb-node-lib';
 import { red, green, yellow, blue, gray, grayDark, cyan, black, brown, white } from 'jb-node-lib';
 
 
@@ -45,9 +45,11 @@ keyboard.push({
   keyUp   : () => { if (pos > 0) { pos--; printMenu(); } },
   keyDown : () => { if (pos < menu.length - 1) { pos++; printMenu(); } },
   keyEnter: () => { selectMainMenuOption(menu[pos]); },
+  keyEsc:   () => { exit(); },
 });
 
-function printMenu() {  
+function printMenu() {
+  printBox(0, 0, 50, 15);
   print(`Select Option:`, 0, 0);
   for (let t = 0; t < menu.length; t++) {
     const option = menu[t];
@@ -110,12 +112,3 @@ async function subMenu() {
 
 
 
-function printBox(x = 0, y = 0) {
-  const height = 20;
-  print(`┌${repeat(80, '─')}┬${repeat(30, '─')}┬${repeat(20, '─')}┐`, x, y);
-  print(`└${repeat(80, '─')}┴${repeat(30, '─')}┴${repeat(20, '─')}┘`, x, y + height);
-  for (let t = 1; t < height; t++) {
-    print(`│${repeat(80, ' ')}│${repeat(30, ' ')}│${repeat(20, ' ')}│`, x, y + t);
-  }
-  // print(`├${repeat(80, '─')}┤`, x, y);
-}
