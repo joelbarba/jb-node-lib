@@ -18,3 +18,6 @@ echo "Update version: $oldVersion  --->  $newVersion"
 echo ""
 
 npm publish
+
+echo ""
+git log -1
