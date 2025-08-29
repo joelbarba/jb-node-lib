@@ -21,3 +21,4 @@ npm publish
 
 echo ""
 git log -1
+echo ""
