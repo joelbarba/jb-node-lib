@@ -20,16 +20,17 @@ else
     read x
     msg=`${x}\n\n New version published: ${newVersion}`
   fi
-  git commit -m "$msg"
-  git push origin master
+  echo $msg
+  # git commit -m "$msg"
+  # git push origin master
 fi
 
 echo ""
 echo "Update version: $oldVersion  --->  $newVersion"
 echo ""
 
-npm publish
+# npm publish
 
-echo ""
-git log -1
-echo ""
+# echo ""
+# git log -1
+# echo ""
