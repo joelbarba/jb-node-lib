@@ -1,4 +1,20 @@
-sh /home/barba/DEV/SHELL_SCRIPTS/git_commit.sh
 echo "Publish the 'jb-node-lib' package to NPM"
+oldVersion=$(node -p "require('./package.json').version");
 npm version minor
+newVersion=$(node -p "require('./package.json').version");
+
+echo ""
+echo "Updated version: $oldVersion  --->  $newVersion"
+
+git status
+
+if changes=$(git status --porcelain) && [[ -z "$changes" ]]; then
+  echo "Working directory clean. Nothing to commit."
+else
+  echo "There are changes to commit."
+  git add -A
+  git commit -m "New version published: $newVersion"
+  git push origin master
+fi
+
 npm publish
