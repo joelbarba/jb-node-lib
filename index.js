@@ -9,6 +9,12 @@ function cmd(command) {
   }));
 }
 
+function init(clear = true) {
+  readline.emitKeypressEvents(process.stdin);
+  if (process.stdin.setRawMode != null) { process.stdin.setRawMode(true); }
+  if (clear) { console.clear(); }
+}
+
 function exit(clear = false) {
   let bottomLine = process.stdout.rows;
   if (clear) {
@@ -137,8 +143,9 @@ function formatSize(size = 0) {
 
 
 
-module.exports.cmd        = cmd;
+module.exports.init       = init;
 module.exports.exit       = exit;
+module.exports.cmd        = cmd;
 module.exports.sleep      = sleep;
 module.exports.move       = move;
 module.exports.print      = print;

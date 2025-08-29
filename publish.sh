@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Publish the 'jb-node-lib' package to NPM"
 oldVersion=$(node -p "require('./package.json').version");
 npm version minor --force
@@ -9,7 +11,16 @@ else
   echo "There are changes to commit."
   git add -A
   git status
-  git commit -m "New version published: $newVersion"
+
+  msg=`New version published: ${newVersion}`
+  x=$1
+  if [[ "$x" == "" ]]; then
+    echo ""
+    echo -n "Type the commit message: "
+    read x
+    msg=`${x}\n\n New version published: ${newVersion}`
+  fi
+  git commit -m "$msg"
   git push origin master
 fi
 
