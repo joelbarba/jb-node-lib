@@ -126,7 +126,8 @@ function formatTime(ms) {
   }
   const min = Math.floor(ms / 60000);
   const sec = Math.round((ms - (min * 60000)) / 1000);
-  return `${pad(min, 2, '0')}:${pad(sec, 2, '0')}`;
+  // return `${pad(min, 2, '0')}:${pad(sec, 2, '0')}`;
+  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 }
 
 function formatSize(size = 0) {
@@ -165,7 +166,6 @@ module.exports.cyan       = function(text) { return color(text, 'cyan'   ); };
 module.exports.black      = function(text) { return color(text, 'black',  ''); };
 module.exports.brown      = function(text) { return color(text, 'yellow', ''); };
 module.exports.white      = function(text) { return color(text, 'white'  ); };
-
 module.exports.dirExist = dirExist;
 module.exports.formatTime = formatTime;
 module.exports.formatSize = formatSize;
