@@ -11,8 +11,7 @@ The library is written as a CommonJS module, so it can be imported as a **Common
 ```javascript
 import { init, exit, cmd, sleep, dirExist, formatTime, formatSize } from 'jb-node-lib';
 import { move, print, line, repeat, color, setColor, resetColor, printBox } from 'jb-node-lib';
-import { red, green, yellow, blue, gray, grayDark, cyan, black, brown, white } from 'jb-node-lib';
-
+import { black, red, green, yellow, blue, magenta, cyan, white, gray } from 'jb-node-lib';
 // Remember to add "type": "module", in package.json to use ES modules
 
 init();
@@ -24,7 +23,7 @@ exit();
 ```javascript
 const { init, exit, cmd, sleep, dirExist, formatTime, formatSize } = require('jb-node-lib');
 const { move, print, line, repeat, color, setColor, resetColor, printBox } = require('jb-node-lib');
-const { red, green, yellow, blue, gray, grayDark, cyan, black, brown, white } = require('jb-node-lib');
+const { black, red, green, yellow, blue, magenta, cyan, white, gray } = require('jb-node-lib');
 
 init();
 print(yellow('Hello World!'), 10, 2);
