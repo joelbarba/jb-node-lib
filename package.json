@@ -1,6 +1,6 @@
 {
   "name": "jb-node-lib",
-  "version": "1.29.0",
+  "version": "1.30.0",
   "description": "Common NodeJS functions to build apps",
   "main": "index.js",
   "scripts": {
