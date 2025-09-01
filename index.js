@@ -118,6 +118,10 @@ function dirExist(fullPath) { // Check if a directory exists
   } catch(err) { return false; }
 }
 
+function pad(text = '', size, char = '0') {
+  return String(text).padStart(size, char);
+}
+
 function formatTime(ms) {
   if (ms < 1000) { return `00:00`; }
   if (ms < 60000) {
@@ -126,8 +130,8 @@ function formatTime(ms) {
   }
   const min = Math.floor(ms / 60000);
   const sec = Math.round((ms - (min * 60000)) / 1000);
-  // return `${pad(min, 2, '0')}:${pad(sec, 2, '0')}`;
-  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  return `${pad(min, 2, '0')}:${pad(sec, 2, '0')}`;
+  // return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 }
 
 function formatSize(size = 0) {
