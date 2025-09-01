@@ -65,31 +65,22 @@ process.stdin.on('keypress', (str, key) => {
 The library exports functions of different purposes, although it focuses on printing elements on a terminal.
 
 - [`init()`](#init)       → It initializes the readline and process stdin for keyboard event handling.
-- `exit`       → Terminates the process (`process.exit(0)`) and moves the cursor to the last line.
-- `cmd`        → Use it to run a terminal command within the app.
-- `sleep`      → Async function to await N milliseconds.
-- `move`       → Move the cursor to a given position in the terminal.
-- `print`      → Prints a string to a given position in the terminal.
-- `line`       → Prints 1 or more strings on different positions of the same line.
-- `repeat`     → It returns a string repeating the given char N times.
-- `color`      → It returns the same string but wrapped with the control chars to print it colored.
-- `setColor`   → It prints a color control char, so every print after is done in that color.
-- `resetColor` → Resets the current color to the default (after a setColor).
-- `printBox`   → It prints a line box to the given position, with additional colomns inside.
-- `red`        → Color Fn. Turns your text red.
-- `green`      → Color Fn. Turns your text green.
-- `yellow`     → Color Fn. Turns your text yellow.
-- `blue`       → Color Fn. Turns your text blue.
-- `gray`       → Color Fn. Turns your text gray.
-- `grayDark`   → Color Fn. Turns your text grayDark.
-- `cyan`       → Color Fn. Turns your text cyan.
-- `black`      → Color Fn. Turns your text black.
-- `brown`      → Color Fn. Turns your text brown.
-- `white`      → Color Fn. Turns your text white.
-- `dirExist`   → Validates whether a directory exists (true) or not (false).
-- `pad`        → A shortcut for `.padStart()` left padding.
-- `formatTime` → It returns a string with a formated time.
-- `formatSize` → It returns a string with a formated file size (KB, MB, GB...)
+- [`exit`](#exit)         → Terminates the process (`process.exit(0)`) and moves the cursor to the last line.
+- [`cmd`](#cmd)           → Use it to run a terminal command within the app.
+- [`sleep`](#sleep)       → Async function to await N milliseconds.
+- [`move`](#move)         → Move the cursor to a given position in the terminal.
+- [`print`](#print)       → Prints a string to a given position in the terminal.
+- [`line`](#line)         → Prints 1 or more strings on different positions of the same line.
+- [`repeat`](#repeat)     → It returns a string repeating the given char N times.
+- [`color`](#color)       → It returns the same string but wrapped with the control chars to print it colored.
+- [`setColor`](#setcolor)     → It prints a color control char, so every print after is done in that color.
+- [`resetColor`](#resetcolor) → Resets the current color to the default (after a setColor).
+- [`printBox`](#printbox)     → It prints a line box to the given position, with additional colomns inside.
+- [`dirExist`](#direxist)     → Validates whether a directory exists (true) or not (false).
+- [`pad`](#pad)               → A shortcut for `.padStart()` left padding.
+- [`formatTime`](#formattime) → It returns a string with a formated time.
+- [`formatSize`](#formatsize) → It returns a string with a formated file size (KB, MB, GB...)
+- [`color functions`](#color-functions)` → Shortcuts for coloring text strings.
 
 
 ### init()
@@ -315,10 +306,11 @@ print(color('This text is white',   'white'),   1, 8);
 print(color('This text is gray',    'gray'),    1, 9);
 ```
 
-![Screenshot of the main list](./colors.png)
+![Screenshot of the main list](./colors-vscode.png)
+<!-- ![Screenshot of the main list](./colors-terminal.png) -->
 
 You can also use **background** colors, and 6 different effects:
-- bright (default, means bold, no lighter)
+- bright (default, means bold, not lighter)
 - dim
 - underscore
 - blink
