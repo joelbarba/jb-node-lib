@@ -118,7 +118,7 @@ function dirExist(fullPath) { // Check if a directory exists
   } catch(err) { return false; }
 }
 
-function pad(text = '', size, char = '0') {
+function pad(text = '', size = 1, char = '0') {
   return String(text).padStart(size, char);
 }
 
@@ -160,17 +160,16 @@ module.exports.color      = color;
 module.exports.setColor   = setColor;
 module.exports.resetColor = resetColor;
 module.exports.printBox   = printBox;
-module.exports.red        = function(text) { return color(text, 'red'    ); };
-module.exports.green      = function(text) { return color(text, 'green'  ); };
-module.exports.yellow     = function(text) { return color(text, 'yellow' ); };
-module.exports.blue       = function(text) { return color(text, 'blue'   ); };
-module.exports.gray       = function(text) { return color(text, 'white', 'dim'); };
-module.exports.grayDark   = function(text) { return color(text, 'gray'   ); };
-module.exports.cyan       = function(text) { return color(text, 'cyan'   ); };
-module.exports.black      = function(text) { return color(text, 'black',  ''); };
-module.exports.brown      = function(text) { return color(text, 'yellow', ''); };
-module.exports.white      = function(text) { return color(text, 'white'  ); };
-module.exports.dirExist = dirExist;
+module.exports.dirExist   = dirExist;
 module.exports.pad        = pad;
 module.exports.formatTime = formatTime;
 module.exports.formatSize = formatSize;
+module.exports.black      = function(text) { return color(text, 'black'   ); };
+module.exports.red        = function(text) { return color(text, 'red'     ); };
+module.exports.green      = function(text) { return color(text, 'green'   ); };
+module.exports.yellow     = function(text) { return color(text, 'yellow'  ); };
+module.exports.blue       = function(text) { return color(text, 'blue'    ); };
+module.exports.magenta    = function(text) { return color(text, 'magenta' ); };
+module.exports.cyan       = function(text) { return color(text, 'cyan'    ); };
+module.exports.white      = function(text) { return color(text, 'white'   ); };
+module.exports.gray       = function(text) { return color(text, 'gray'    ); };

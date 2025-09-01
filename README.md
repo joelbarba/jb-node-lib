@@ -147,13 +147,15 @@ Move the cursor to a given position in the terminal.
 
 ### print()      
 ```javascript
-function print(text?: string, x: number, y: number, color: string): void
+function print(text: string, posX ?: number, posY ?: number, color ?: string): void
 
 // Example:
+print('Hello World!');
 print('Hello World!', 10, 3, 'yellow');
 ```
-Prints the string `text` to a given position `x, y` in the terminal.<br/>
-You can also add a `color` (See [colors palette](#color-palette)).
+Prints the string `text` to a given position `posX, posY` in the terminal.<br/>
+It does not break the line. The next print will continue from the current cursor position (if not provided).<br/>
+You can also add the `color` of the text (See [colors palette](#color-palette)).
 
 
 ### line()
@@ -187,12 +189,14 @@ print(color('This text is green', 'green'), 1, 1);
 print(color('This text is green bg blinking text', 'white', 'blink', 'green'), 1, 2);
 ```
 It returns the same string but wrapped with the control chars to print it colored.
-- 1st argument → Text color 
-- 2nd argument → Text effect 
-- 3rd argument → Text background
+- 2nd argument (`color`) → Text color
+- 3rd argument (`effect`) → Text effect 
+- 4th argument (`bgColor`) → Background color
 
-Colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `gray`
+Colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `gray` <br/>
 Effects: `bright`, `dim`, `underscore`, `blink`, `reverse`, `hidden`
+
+There is a set of [shortcut functions for every color](#color-functions).
 
 See [colors palette](#color-palette) for more.
 
@@ -266,20 +270,36 @@ A shortcut for left padding `.padStart()`.
 function formatTime(ms: number): string;
 
 // Example:
-formatTime();
+print(`Time (mm:ss) = ` + formatTime(160*1000)); // Time = 02:40
 ```
-It returns a string with a formated time.
+It returns a string with a formated time (minutes and seconds).<br/>
+It doesn't account hours.
 
 
 ### formatSize() 
 ```javascript
-function xxxxx(): void;
+function formatSize(bytes = 0): string;
 
 // Example:
-xxxxx();
+print(`Size = ` + formatSize(160220)); // Size = 156.4 KB
+print(`1 Byte = ` + formatSize(1)); // Size = 1 B
 ```
 It returns a string with a formated file size (KB, MB, GB...)
 
+
+## Color Functions
+There is a set of color shortcut functions for every of the 9 colors, so you can improve verbosity:
+```javascript
+black('Hello');       // = print(color('Hello', 'black'));
+red('Hello');         // = print(color('Hello', 'red'));
+green('Hello');       // = print(color('Hello', 'green'));
+yellow('Hello');      // = print(color('Hello', 'yellow'));
+blue('Hello');        // = print(color('Hello', 'blue'));
+magenta('Hello');     // = print(color('Hello', 'magenta'));
+cyan('Hello');        // = print(color('Hello', 'cyan'));
+white('Hello');       // = print(color('Hello', 'white'));
+gray('Hello');        // = print(color('Hello', 'gray'));
+```
 
 ## Color Palette
 There is a palette of 9 different colors you can use to print text:
@@ -297,10 +317,8 @@ print(color('This text is gray',    'gray'),    1, 9);
 
 ![Screenshot of the main list](./colors.png)
 
-
-
 You can also use **background** colors, and 6 different effects:
-- bright (default)
+- bright (default, means bold, no lighter)
 - dim
 - underscore
 - blink
@@ -308,36 +326,6 @@ You can also use **background** colors, and 6 different effects:
 - hidden
 
 
-
-### red()        
-Color Fn. Turns your text red.
-
-### green()      
-Color Fn. Turns your text green.
-
-### yellow()     
-Color Fn. Turns your text yellow.
-
-### blue()       
-Color Fn. Turns your text blue.
-
-### gray()       
-Color Fn. Turns your text gray.
-
-### grayDark()   
-Color Fn. Turns your text grayDark.
-
-### cyan()       
-Color Fn. Turns your text cyan.
-
-### black()      
-Color Fn. Turns your text black.
-
-### brown()      
-Color Fn. Turns your text brown.
-
-### white()      
-Color Fn. Turns your text white.
 
 
 
