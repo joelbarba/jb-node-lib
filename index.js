@@ -171,5 +171,6 @@ module.exports.black      = function(text) { return color(text, 'black',  ''); }
 module.exports.brown      = function(text) { return color(text, 'yellow', ''); };
 module.exports.white      = function(text) { return color(text, 'white'  ); };
 module.exports.dirExist = dirExist;
+module.exports.pad        = pad;
 module.exports.formatTime = formatTime;
 module.exports.formatSize = formatSize;

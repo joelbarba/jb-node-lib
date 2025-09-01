@@ -87,6 +87,7 @@ The library exports functions of different purposes, although it focuses on prin
 - `brown`      → Color Fn. Turns your text brown.
 - `white`      → Color Fn. Turns your text white.
 - `dirExist`   → Validates whether a directory exists (true) or not (false).
+- `pad`        → A shortcut for `.padStart()` left padding.
 - `formatTime` → It returns a string with a formated time.
 - `formatSize` → It returns a string with a formated file size (KB, MB, GB...)
 
@@ -250,12 +251,22 @@ Validates whether a directory exists (true) or not (false).
 It uses `try`/`catch`, so it can be expensive in terms of performance (use it accordingly).
 
 
-### formatTime() 
+### pad() 
 ```javascript
-function xxxxx(): void;
+function pad(text: string, size = 1, char = '0'): string;
 
 // Example:
-xxxxx();
+pad(25, 4, '0'); // = 0025
+```
+A shortcut for left padding `.padStart()`.
+
+
+### formatTime() 
+```javascript
+function formatTime(ms: number): string;
+
+// Example:
+formatTime();
 ```
 It returns a string with a formated time.
 
