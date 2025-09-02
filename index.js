@@ -1,4 +1,6 @@
 const { exec } = require('child_process');
+const { clear } = require('console');
+const { title } = require('process');
 const readline = require('readline');
 
 function cmd(command) {
@@ -37,8 +39,9 @@ function print(text = '', x, y, color) {
   process.stdout.write(text);
 }
 
-// Prints multiple strings onto the same line, in different positions
-// args should be pairs of strings and numbers, like: line('hello', 3, 'bye', 15, 'end', 50);
+// Joins multiple strings into one, each on its specific position.
+// args should be pairs of strings and numbers.
+// Ex: line('hello', 3, 'bye', 15, 'end', 20); = '   hello       bye     end'
 function line(...args) { // str1, pos1, ... strN, posN
   const str = args.filter((v,i) => !(i % 2)); // strings to print
   const pos = args.filter((v,i) => (i % 2));  // positions where to print them
@@ -60,7 +63,8 @@ function printBox(posX = 0, posY = 0, width = 80, height = 20, cols = []) {
   print(`┌${repeat(width, '─')}┐`, posX, posY);
   print(`└${repeat(width, '─')}┘`, posX, posY + height);
   for (let t = 1; t < height; t++) {
-    print(`│${repeat(width, ' ')}│`, posX, posY + t);
+    print(`│`, posX, posY + t);
+    print(`│`, posX + width + 1, posY + t);
   }
   cols.forEach(col => {
     print(`┬`, posX + col, posY);
@@ -145,31 +149,101 @@ function formatSize(size = 0) {
 }
 
 
+function setKeyboard(keyPress = (str, key) => {}) {
+  const keyboard = {
+    keyPress: keyPress,
+    enable: true,
+    maps: [],
+    clear() { this.maps = []; },
+    pushKeyMap(map) { this.maps.push(map); },
+    pop() { this.maps.pop(); },
+    disable() { this.enable = false; },
+    enable()  { this.enable = true; },
+    onKeyPress(callbackFn) { this.keyPress = callbackFn; },
+  };
+  process.stdin.on('keypress', (str, key) => {
+    (function() {
+      const keyMap = keyboard.maps[keyboard.maps.length - 1];
+      if (!keyboard.enable) { return; }
+      if (key.name === 'c' && key.ctrl) { return exit(); }
+      if (key.name === 'up')      { return keyMap.keyUp    && keyMap.keyUp(); }
+      if (key.name === 'down')    { return keyMap.keyDown  && keyMap.keyDown(); }
+      if (key.name === 'return')  { return keyMap.keyEnter && keyMap.keyEnter(); }
+      if (key.name === 'space')   { return keyMap.keySpace && keyMap.keySpace(); }
+      if (key.name === 'escape')  { return keyMap.keyEsc   && keyMap.keyEsc(); }
+      if (keyMap[key.name])       { return keyMap[key.name](); }
+    }());
+    keyboard.keyPress(str, key);
+  });
+  return keyboard;
+}
+
+function createMenu(menuOps = [], posX = 0, posY = 0, defaultSel = 0) {
+  const printOp = (ind, title, selected) => {
+    const opNum = (ind + 1) + '.';
+    let cursor = `    `;
+    let opTxt = line(opNum, 0, title, 4);
+    if (selected) { 
+      cursor = color(`-->`, 'yellow');
+      opTxt = color(opTxt, 'white', 'bright', 'yellow');
+    }
+    print(cursor, posX,     posY + ind);
+    print(opTxt,  posX + 5, posY + ind);
+  }
+  const menu = {
+    ops: menuOps, // [ ...{ code, title }]
+    sel: defaultSel, // selected option index
+    print() {
+      this.ops.forEach((op, ind) => {
+        printOp(ind, op.title, this.sel === ind);
+      });
+      this.move();
+    },
+    move(sel = this.sel) {
+      if (sel < 0 || sel >= this.ops.length) { return; }
+      printOp(this.sel, this.ops[this.sel].title, false); // unselect previous
+      this.sel = sel;
+      printOp(this.sel, this.ops[this.sel].title, true); // select new
+      move(posX + 4, posY + this.sel);
+    },
+    prev() { this.move(this.sel - 1); },
+    next() { this.move(this.sel + 1); },
+    currOp(sel = this.sel) { // Select current option: return ops[sel]
+      if (sel < 0 || sel >= this.ops.length) { return; }
+      return this.ops[sel];
+    }
+  };
+  menu.print();
+  return menu;
+}
 
 
 
-module.exports.init       = init;
-module.exports.exit       = exit;
-module.exports.cmd        = cmd;
-module.exports.sleep      = sleep;
-module.exports.move       = move;
-module.exports.print      = print;
-module.exports.line       = line;
-module.exports.repeat     = repeat;
-module.exports.color      = color;
-module.exports.setColor   = setColor;
-module.exports.resetColor = resetColor;
-module.exports.printBox   = printBox;
-module.exports.dirExist   = dirExist;
-module.exports.pad        = pad;
-module.exports.formatTime = formatTime;
-module.exports.formatSize = formatSize;
-module.exports.black      = function(text) { return color(text, 'black'   ); };
-module.exports.red        = function(text) { return color(text, 'red'     ); };
-module.exports.green      = function(text) { return color(text, 'green'   ); };
-module.exports.yellow     = function(text) { return color(text, 'yellow'  ); };
-module.exports.blue       = function(text) { return color(text, 'blue'    ); };
-module.exports.magenta    = function(text) { return color(text, 'magenta' ); };
-module.exports.cyan       = function(text) { return color(text, 'cyan'    ); };
-module.exports.white      = function(text) { return color(text, 'white'   ); };
-module.exports.gray       = function(text) { return color(text, 'gray'    ); };
+
+module.exports.init        = init;
+module.exports.exit        = exit;
+module.exports.cmd         = cmd;
+module.exports.sleep       = sleep;
+module.exports.move        = move;
+module.exports.print       = print;
+module.exports.line        = line;
+module.exports.repeat      = repeat;
+module.exports.color       = color;
+module.exports.setColor    = setColor;
+module.exports.resetColor  = resetColor;
+module.exports.printBox    = printBox;
+module.exports.dirExist    = dirExist;
+module.exports.pad         = pad;
+module.exports.formatTime  = formatTime;
+module.exports.formatSize  = formatSize;
+module.exports.setKeyboard = setKeyboard;
+module.exports.createMenu  = createMenu;
+module.exports.black       = function(text) { return color(text, 'black'   ); };
+module.exports.red         = function(text) { return color(text, 'red'     ); };
+module.exports.green       = function(text) { return color(text, 'green'   ); };
+module.exports.yellow      = function(text) { return color(text, 'yellow'  ); };
+module.exports.blue        = function(text) { return color(text, 'blue'    ); };
+module.exports.magenta     = function(text) { return color(text, 'magenta' ); };
+module.exports.cyan        = function(text) { return color(text, 'cyan'    ); };
+module.exports.white       = function(text) { return color(text, 'white'   ); };
+module.exports.gray        = function(text) { return color(text, 'gray'    ); };

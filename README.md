@@ -69,7 +69,7 @@ The library exports functions of different purposes, although it focuses on prin
 - [`sleep()`](#sleep)       → Async function to await N milliseconds.
 - [`move()`](#move)         → Move the cursor to a given position in the terminal.
 - [`print()`](#print)       → Prints a string to a given position in the terminal.
-- [`line()`](#line)         → Prints 1 or more strings on different positions of the same line.
+- [`line()`](#line)         → Joins multiple strings into one, each on its specific position.
 - [`repeat()`](#repeat)     → It returns a string repeating the given char N times.
 - [`color()`](#color)       → It returns the same string but wrapped with the control chars to print it colored.
 - [`setColor()`](#setcolor)     → It prints a color control char, so every print after is done in that color.
@@ -79,6 +79,8 @@ The library exports functions of different purposes, although it focuses on prin
 - [`pad()`](#pad)               → A shortcut for `.padStart()` left padding.
 - [`formatTime()`](#formattime) → It returns a string with a formated time.
 - [`formatSize()`](#formatsize) → It returns a string with a formated file size (KB, MB, GB...)
+- [`setKeyboard()`](#formatsize) → It listens to the keyboard events, and returns a keyboard object to handle them.
+- [`createMenu()`](#formatsize) → It returns a menu object to handle selections.
 - [`color functions`](#color-functions)` → Shortcuts for coloring text strings.
 
 
@@ -161,11 +163,15 @@ You can also add the `color` of the text (See [colors palette](#color-palette)).
 function line([..., strN: string, posN: number]): void
 
 // Example:
-line('Player1: 00   Player2: 00   Player3: 00', 0);
-line('99', 10, '99', 24, '99', 38); // It only prints the values
+print('Name         Age       ID', 0, 0);                 // Name         Age       ID
+print('----------------------------------', 0, 1);        // ----------------------------------
+print(line('Syrax',  0, '7000', 14, '99999', 24), 0, 2);  // Syrax        7000      99999
+print(line('Vaghar', 0, '500',  14, '88888', 24), 0, 3);  // Vaghar       500       88888
+print(line('Me',     0, '25',   14, '11111', 24), 0, 4);  // Me           25        11111
 ```
-Prints multiple strings onto the same line, in different positions.<br/>
-`args` should be pairs of strings and numbers, like: line('hello', 3, 'bye', 15, 'end', 50);
+Joins multiple strings into one, each on its specific position. It adds spaces beteween each.<br/>
+This is very convinient when printing one line with different values in different columns, like in tables where every value should start on the same position, reagadless of the length of the previous value.<br/>
+`args` should be pairs of strings and numbers, like: line('hello', 3, 'bye', 15, 'end', 50); where every par defines a value and a column position.
 
 <hr>
 
@@ -292,6 +298,76 @@ print(`Size = ` + formatSize(160220)); // Size = 156.4 KB
 print(`1 Byte = ` + formatSize(1)); // Size = 1 B
 ```
 It returns a string with a formated file size (KB, MB, GB...)
+
+<hr>
+
+### setKeyboard() 
+```javascript
+function setKeyboard(keyPress = (str, key) => {}): keyboard{};
+
+// Example:
+const keyboard = setKeyboard();
+keyboard.pushKeyMap({
+  keyEsc:   () => { exit(); },
+  keyUp   : () => { /* do something */ },
+  keyDown : () => { /* do something */ },
+  keyEnter: () => { /* do something */ },
+});
+```
+It listens to the keyboard events on `process.stdin.on('keypress', (str, key) => {})`, and returns a keyboard object to handle them.
+You basically add a keyMaps, where you define an action for every key code.
+You can add more than 1 keyMap (`pushKeyMap`/`pop`), so you can easily handle different actions on different situations, like moving from one menu to another.<br/>
+The available methods are:
+- `clear()` → Removes all current keyMaps.
+- `pushKeyMap(map)` → Adds a new keyMap, so that takes effect immediately.
+- `pop()`           → Removes the current keyMap. If there were others before, those take effect in reverse order.
+- `disable()`       → Disables any key action.
+- `enable()`        → Enables them again.
+- `onKeyPress(callbackFn)` → To add extra logic on keypress.
+
+In case you need to do something different on key press, you can add a callback function with `onKeyPress()`.
+Keymap actions will still run, right before the keyPress function.
+Example:
+```javascript
+const keyboard = setKeyboard((str, key) => print(`You pressed: ${key.name}`, 60, 0));
+keyboard.pushKeyMap({
+  keyUp   : () => { /* do something */ },
+  keyDown : () => { /* do something */ },
+  keyEnter: () => { /* do something */ },
+});
+```
+
+<hr>
+
+### createMenu() 
+```javascript
+function createMenu([...op], posX = 0, posY = 0): menu{};
+
+// Example:
+const menu = createMenu([
+  { code: 'op1', title: `Option 1` },
+  { code: 'op2', title: `Option 2` },
+  { code: 'op3', title: `Option 3` },
+], 4, 2);
+
+const keyboard = setKeyboard();
+keyboard.pushKeyMap({
+  keyEsc:   () => { exit(); },
+  keyUp   : () => { menu.prev(); },
+  keyDown : () => { menu.next(); },
+  keyEnter: () => { selectMenuOption(menu.currOp()); },
+});
+```
+It returns a menu object to handle selections.<br/>
+It keeps track of the options and current selection, pointint to it with an arrow.<br/>
+![Screenshot of the main list](./menu.png)
+
+You can use the following methods on the `menu` object:
+- `print()`   → To print all the options, highlighting the current selection
+- `next()`    → Move the current selection to the next index.
+- `prev()`    → Move the current selection to the previous index.
+- `move(sel)` → Move the current selection to the given index.
+- `currOp()`  → Returns the object of the current selection (`ops[sel]`).
 
 <hr>
 
